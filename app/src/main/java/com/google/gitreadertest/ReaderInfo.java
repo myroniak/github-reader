@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -40,15 +42,15 @@ import java.util.TreeMap;
 public class ReaderInfo extends ActionBarActivity {
 
     private static final String TAG = "myLogs";
-    private ProgressDialog pDialog;
-
+    ProgressDialog pDialog;
+    FormattingNumbers formattingNumbers = new FormattingNumbers();
     TextView txtCompany, txtFollowers, txtFollowing, txtUsername;
     ImageView imgView;
     String userUrl;
     String username;
     Intent intent;
     DBHelper dbHelper;
-
+    ArrayList<Timetable> items_monday;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,101 +75,84 @@ public class ReaderInfo extends ActionBarActivity {
 
         dbHelper = new DBHelper(this);
 
-        new ParseTask().execute();
-    }
+        new ParseTask(ReaderInfo.this,"https://api.github.com/users/"+username, pDialog) {
+            @Override
+            protected void onPostExecute(String strJson)  {
+                pDialog.dismiss();
+                JSONObject dataJsonObj = null;
 
+                try {
+                    dataJsonObj = new JSONObject(strJson);
 
-    private class ParseTask extends AsyncTask<Void, Void, String> {
+                    int followers = dataJsonObj.optInt("followers");
+                    int following = dataJsonObj.optInt("following");
 
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-        String resultJson = "";
-        FormattingNumbers formattingNumbers = new FormattingNumbers();
+                    String name = dataJsonObj.optString("name");
+                    String company = dataJsonObj.optString("company");
 
+                    String avatar_url = dataJsonObj.optString("avatar_url");
+                    userUrl = dataJsonObj.optString("html_url");
 
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(ReaderInfo.this);
-            pDialog.setMessage("Downloading data...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+                    UrlImageViewHelper.setUrlDrawable(imgView, avatar_url);
 
-        }
+                    txtFollowers.setText(formattingNumbers.format(followers) + "\n" + "followers");
+                    txtFollowing.setText(formattingNumbers.format(following) + "\n" + "following");
 
-        @Override
-        protected String doInBackground(Void... params) {
-            // get string with MainActivity
+                    //check username field on empty result
+                    if (name.matches("") | name == null | name.matches("null")) {
+                        txtUsername.setText("No name");
+                    } else {
+                        txtUsername.setText(name );
+                    }
 
-            try {
-                URL url = new URL("https://api.github.com/users/" + username);
+                    //check company field on empty result
+                    if (company.matches("") | company == null | company.matches("null")) {
+                        txtCompany.setText(", No company");
+                    } else {
+                        txtCompany.setText(", "+ company);
+                    }
 
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-                resultJson = buffer.toString();
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            return resultJson;
-        }
+        }.execute();
 
-        @Override
-        protected void onPostExecute(String strJson) {
-            super.onPostExecute(strJson);
-            pDialog.dismiss();
 
-            JSONObject dataJsonObj = null;
+        new ParseTask(ReaderInfo.this,"https://api.github.com/users/"+username+"/repos", pDialog) {
+            @Override
+            protected void onPostExecute(String strJson)  {
+                pDialog.dismiss();
+                items_monday = new ArrayList();
 
-            try {
-                dataJsonObj = new JSONObject(strJson);
+                try {
 
-                int followers = dataJsonObj.optInt("followers");
-                int following = dataJsonObj.optInt("following");
-
-                String name = dataJsonObj.optString("name");
-                String company = dataJsonObj.optString("company");
-
-                String avatar_url = dataJsonObj.optString("avatar_url");
-                userUrl = dataJsonObj.optString("html_url");
-
-                UrlImageViewHelper.setUrlDrawable(imgView, avatar_url);
-
-                txtFollowers.setText(formattingNumbers.format(followers) + "\n" + "followers");
-                txtFollowing.setText(formattingNumbers.format(following) + "\n" + "following");
-
-                //check username field on empty result
-                if (name.matches("") | name == null | name.matches("null")) {
-                    txtUsername.setText("No name" + ", ");
-                } else {
-                    txtUsername.setText(name );
+                    JSONArray jsonArray = new JSONArray(strJson);
+                    Log.d(TAG, "jsAr:" + jsonArray);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonobject = jsonArray.getJSONObject(i);
+                        int countStar = jsonobject.getInt("stargazers_count");
+                        int countFork = jsonobject.getInt("forks_count");
+                        String language = jsonobject.getString("language");
+                        String name = jsonobject.getString("name");
+                        items_monday.add(new Timetable(name, language, format(countFork), format(countStar)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                //check company field on empty result
-                if (company.matches("") | company == null | company.matches("null")) {
-                    txtCompany.setText("No company");
-                } else {
-                    txtCompany.setText(", "+ company);
-                }
+                ListView listView = (ListView) findViewById(R.id.listView);
+                TextView emptyText = (TextView)findViewById(android.R.id.empty);
+                listView.setEmptyView(emptyText);
+                TimetableAdapter adapter = new TimetableAdapter(ReaderInfo.this, items_monday);
+                listView.setAdapter(adapter);
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+            }}.execute();
+}
+
+
+
 
     public void browseButton(View v) {
 
@@ -219,4 +204,29 @@ public class ReaderInfo extends ActionBarActivity {
         dbHelper.close();
     }
 
+
+    private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
+    static {
+        suffixes.put(1_000L, "k");
+        suffixes.put(1_000_000L, "M");
+        suffixes.put(1_000_000_000L, "G");
+        suffixes.put(1_000_000_000_000L, "T");
+        suffixes.put(1_000_000_000_000_000L, "P");
+        suffixes.put(1_000_000_000_000_000_000L, "E");
+    }
+
+    public static String format(long value) {
+        //Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
+        if (value == Long.MIN_VALUE) return format(Long.MIN_VALUE + 1);
+        if (value < 0) return "-" + format(-value);
+        if (value < 1000) return Long.toString(value); //deal with easy case
+
+        Map.Entry<Long, String> e = suffixes.floorEntry(value);
+        Long divideBy = e.getKey();
+        String suffix = e.getValue();
+
+        long truncated = value / (divideBy / 10); //the number part of the output times 10
+        boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
+        return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
+    }
 }

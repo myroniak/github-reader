@@ -21,13 +21,13 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Name, " />
+                android:text="No Name" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No company" />
+                android:text=", No company" />
         </LinearLayout>
 
         <LinearLayout

@@ -1,4 +1,4 @@
-package com.google.gitreadertest;
+package com.google.githubreader;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

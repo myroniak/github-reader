@@ -1,4 +1,4 @@
-package com.google.gitreadertest;
+package com.google.githubreader;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

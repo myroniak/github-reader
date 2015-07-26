@@ -1,4 +1,4 @@
-package com.google.gitreadertest;
+package com.google.githubreader;
 
 import android.app.ActionBar;
 import android.app.Activity;

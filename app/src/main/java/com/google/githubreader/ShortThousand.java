@@ -1,4 +1,4 @@
-package com.google.gitreadertest;
+package com.google.githubreader;
 
 import java.util.Map;
 import java.util.NavigableMap;

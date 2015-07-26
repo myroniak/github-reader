@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
 
     EditText editText;
     Button button;
-    String sUsername;
+    String username;
     Intent intent;
 
     @Override
@@ -64,11 +63,12 @@ public class MainActivity extends ActionBarActivity {
             return false;
 
         } else {
-            intent = new Intent(MainActivity.this, ReaderInfo.class);
-            sUsername = editText.getText().toString();
+
+            intent = new Intent(this, ReaderInfo.class);
+            username = editText.getText().toString();
 
             //check editText on empty or space
-            if (sUsername.matches("") | sUsername.contains(" ")) {
+            if (username.matches("") | username.contains(" ")) {
 
                 editText.setError("The field is empty or standing space");
 

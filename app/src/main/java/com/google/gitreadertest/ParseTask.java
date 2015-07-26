@@ -11,61 +11,58 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public abstract class ParseTask extends AsyncTask<Void, Void, String> {
-        ProgressDialog pDialog;
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
-        String resultJson = "";
 
-        Context context;
-        String urlLink;
+    HttpURLConnection urlConnection = null;
+    BufferedReader reader = null;
+    ProgressDialog pDialog;
+
+    String urlLink, line, resultJson = "";
+    Context context;
 
 
-    public ParseTask(Context context,String urlLink, ProgressDialog pDialog){
+    public ParseTask(Context context, String urlLink, ProgressDialog pDialog) {
 
-        this.pDialog=pDialog;
-        this.urlLink=urlLink;
-        this.context=context;
+        this.pDialog = pDialog;
+        this.urlLink = urlLink;
+        this.context = context;
 
     }
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(context);
-            pDialog.setMessage("Downloading data...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
 
-        }
+    protected void onPreExecute() {
+        super.onPreExecute();
+        pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Downloading data...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
 
-        @Override
-        protected String doInBackground(Void... params) {
-            // get string with MainActivity
+    @Override
+    protected String doInBackground(Void... params) {
+        // get string with MainActivity
 
-            try {
-                URL url = new URL(urlLink);
+        try {
+            URL url = new URL(urlLink);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
 
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
+            InputStream inputStream = urlConnection.getInputStream();
 
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
+            reader = new BufferedReader(new InputStreamReader(inputStream));
 
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-
-                resultJson = buffer.toString();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
             }
-            return resultJson;
+
+            resultJson = buffer.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return resultJson;
+    }
 
-
-        protected abstract void onPostExecute(String strJson);
+    protected abstract void onPostExecute(String strJson);
 }

@@ -2,7 +2,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/tableLayout">
+   >
 
     <TableRow
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:textSize="15dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 android:id="@+id/repName" />
 
@@ -31,13 +31,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Language: "/>
+                    android:text="Language: "
+                    android:textSize="18dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:id="@+id/repLang" />
+                    android:id="@+id/repLang"
+                    android:textSize="18dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -46,14 +48,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="right"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|right"
+                android:gravity="right"
                 android:layout_marginRight="3dp"
                 android:id="@+id/lin">
 
@@ -61,8 +62,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="20dp"
-                    android:id="@+id/textFork" />
+                    android:textSize="22dp"
+                    android:id="@+id/textFork"
+                    android:layout_gravity="center_vertical" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -74,7 +76,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="65dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:gravity="right">
 
@@ -82,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="20dp"
+                    android:textSize="22dp"
                     android:id="@+id/textStar"
                     android:layout_gravity="center_vertical|right" />
 

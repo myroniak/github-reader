@@ -21,56 +21,57 @@
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Name" />
+                android:text="No Name"
+                android:textSize="35dp" />
 
             <TextView
                 android:id="@+id/tvCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=", No company" />
+                android:text=", No company"
+                android:textSize="35dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_weight="1">
+            android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:layout_weight="0.18">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvFollowers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="100dp"
                     android:gravity="center"
-                    android:text="0 \n followers" />
+                    android:text="0 \n followers"
+                    android:textSize="35dp" />
 
                 <ImageButton
                     android:id="@+id/browseButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="100dp"
                     android:background="@null"
                     android:onClick="browseButton"
-                    android:src="@drawable/btn_browser"
-                    android:layout_marginRight="10dp" />
+                    android:src="@drawable/btn_browser" />
             </LinearLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
-                android:layout_width="150dp"
+                android:layout_width="350dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/no_avatar"
@@ -88,20 +89,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="100dp"
                     android:gravity="center"
-                    android:text="0 \n following" />
+                    android:text="0 \n following"
+                    android:textSize="40dp" />
 
                 <ImageButton
                     android:id="@+id/sharedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="100dp"
                     android:background="@null"
                     android:onClick="sharedLinkButton"
-                    android:src="@drawable/btn_shared"
-                    android:layout_marginLeft="10dp" />
+                    android:src="@drawable/btn_shared" />
             </LinearLayout>
 
         </LinearLayout>
@@ -111,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:onClick="saveDataUserButton"
             android:src="@drawable/btn_save" />
@@ -122,7 +123,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:text="Repositories" />
+        android:text="Repositories"
+        android:textSize="35dp" />
 
     <View
         android:layout_width="fill_parent"

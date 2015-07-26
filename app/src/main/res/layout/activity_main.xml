@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_button"
+        android:background="@drawable/btn_bg"
         android:drawableLeft="@drawable/search_btn"
         android:onClick="onClick"
         android:text="Tell me more!" />

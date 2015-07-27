@@ -10,7 +10,7 @@
     <string name="etEmpty">Это поле пустое или стоит пробел</string>
     <string name="noIC">Нет соединения с интернетом</string>
     <string name="titleError">Ошибка!</string>
-    <string name="tvFollowers">\nподписчика</string>
+    <string name="tvFollowers">\nподписчиков</string>
     <string name="tvNocompany">, \u0020 Нет компании</string>
     <string name="tvNoname">Нет имени</string>
     <string name="txtError">Пользователь не существует</string>

@@ -21,13 +21,13 @@
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Name" />
+                android:text="@string/tvNoname" />
 
             <TextView
                 android:id="@+id/tvCompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=", No company" />
+                android:text="@string/tvNocompany" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,7 +52,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="25dp"
                     android:gravity="center"
-                    android:text="0 \n followers" />
+                    android:text="@string/tvFollowers" />
 
                 <ImageButton
                     android:id="@+id/browseButton"
@@ -86,10 +86,10 @@
                     android:id="@+id/tvFollowing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="25dp"
                     android:gravity="center"
-                    android:text="0 \n following" />
+                    android:text="@string/tvFollowing" />
 
                 <ImageButton
                     android:id="@+id/sharedButton"
@@ -121,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:text="Repositories" />
+        android:text="@string/tvRepositories" />
 
     <View
         android:layout_width="fill_parent"

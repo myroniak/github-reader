@@ -22,7 +22,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="40dp"
-        android:text="Input username to know more"
+        android:text="@string/tvHead"
+        android:gravity="center"
         android:textColor="#B2DFDB"
         android:textSize="15dp" />
 
@@ -31,20 +32,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:hint="GitHub username"
+        android:hint="@string/etHint"
         android:inputType="textPersonName"
-        android:maxLength="25"
-        android:text="koush" />
+        android:maxLength="25" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="135dp"
+        android:layout_width="169dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:background="@drawable/btn_bg"
         android:drawableLeft="@drawable/search_btn"
         android:onClick="onClick"
-        android:text="Tell me more!" />
+        android:text="@string/btnSearch" />
 
 </LinearLayout>

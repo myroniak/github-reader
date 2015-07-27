@@ -1,6 +1,20 @@
 <resources>
-    <string name="app_name">GitReader</string>
-
+    <string name="app_name">GitHubReader</string>
     <string name="hello_world">Hello world!</string>
+    <string name="tvHead">Input login to know more</string>
+    <string name="btnSearch">GitHubReader</string>
+    <string name="etHint">GitHub login</string>
     <string name="action_settings">Settings</string>
+    <string name="tvLanguage">Language: </string>
+    <string name="tvRepositories">Repositories</string>
+    <string name="tvFollowers">\nfollowers</string>
+    <string name="tvNoname">No Name</string>
+    <string name="tvNocompany">, \u0020 No company</string>
+    <string name="tvFollowing">\nfollowing</string>
+    <string name="noIC">No internet connection</string>
+    <string name="etEmpty">The field is empty or standing space</string>
+    <string name="titleError">Error</string>
+    <string name="txtError">User not found</string>
+    <string name="pDialog">Downloading data...</string>
+    <string name="repo">No repositories</string>
 </resources>

@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
 
     EditText editText;
     Button button;
-    String username;
+    String username, noIC, etEmpty;
     Intent intent;
 
     @Override
@@ -33,6 +33,9 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
         setContentView(R.layout.activity_main);
+
+        noIC = getResources().getString(R.string.noIC);
+        etEmpty = getResources().getString(R.string.etEmpty);
 
         button = (Button) findViewById(R.id.button);
 
@@ -55,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
         //check internet connection
         if (networkInfo == null) {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "No internet connection!",
+                    noIC,
                     Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
@@ -70,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
             //check editText on empty or space
             if (username.matches("") | username.contains(" ")) {
 
-                editText.setError("The field is empty or standing space");
+                editText.setError(etEmpty);
 
             } else {
                 intent.putExtra("username", editText.getText().toString());

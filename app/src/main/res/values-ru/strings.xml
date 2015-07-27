@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">GitHub Читатель</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tvHead">Введите имя пользователя чтобы узнать больше информации</string>
+    <string name="btnSearch">Искать!</string>
+    <string name="etHint">GitHub логин</string>
+    <string name="action_settings">Settings</string>
+    <string name="tvLanguage">Язык:</string>
+    <string name="tvRepositories">Репозитории</string>
+    <string name="etEmpty">Это поле пустое или стоит пробел</string>
+    <string name="noIC">Нет соединения с интернетом</string>
+    <string name="titleError">Ошибка!</string>
+    <string name="tvFollowers">\nподписчика</string>
+    <string name="tvNocompany">, \u0020 Нет компании</string>
+    <string name="tvNoname">Нет имени</string>
+    <string name="txtError">Пользователь не существует</string>
+    <string name="tvFollowing">\nподписан</string>
+    <string name="pDialog">Загрузка данных...</string>
+    <string name="repo">Нет репозиториев</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.google.githubreader;
+package com.google.githubreader.model;
 
 import java.util.Map;
 import java.util.NavigableMap;
@@ -9,6 +9,7 @@ import java.util.TreeMap;
  */
 public class ShortThousand {
     private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
+
     static {
         suffixes.put(1_000L, "k");
         suffixes.put(1_000_000L, "M");

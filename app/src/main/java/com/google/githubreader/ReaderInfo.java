@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +20,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.githubreader.model.Data;
+import com.google.githubreader.model.DataAdapter;
+import com.google.githubreader.model.ShortThousand;
+import com.google.githubreader.sqliteDB.DBHelper;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import org.json.JSONArray;
@@ -31,11 +34,8 @@ import java.util.ArrayList;
 
 public class ReaderInfo extends ActionBarActivity {
 
-    private static final String TAG = "myLogs";
-
-
     TextView tvCompany, tvFollowers, tvFollowing, tvUsername, emptyText;
-    ArrayList<Timetable> items_list;
+    ArrayList<Data> items_list;
     String username;
     ProgressDialog pDialog;
     JSONObject dataJsonObj;
@@ -45,6 +45,7 @@ public class ReaderInfo extends ActionBarActivity {
     int followers, following;
     DBHelper dbHelper;
     ShortThousand formattingNumbers;
+    String titleError, txtError, txtFollowing, txtFollowers, tvNoname, tvNocompany, progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +71,40 @@ public class ReaderInfo extends ActionBarActivity {
 
         dbHelper = new DBHelper(this);
 
+        titleError = getResources().getString(R.string.titleError);
+        txtError = getResources().getString(R.string.txtError);
+        txtFollowing = getResources().getString(R.string.tvFollowing);
+        txtFollowers = getResources().getString(R.string.tvFollowers);
+        tvNoname = getResources().getString(R.string.tvNoname);
+        tvNocompany = getResources().getString(R.string.tvNocompany);
+        progress = getResources().getString(R.string.pDialog);
 
-        new ParseTask(this, "https://api.github.com/users/" + username, pDialog) {
+        new MyAsyncTask(this, "https://api.github.com/users/" + username, pDialog, progress) {
 
             // override method for get all data about user
             @Override
             protected void onPostExecute(String strJson) {
                 pDialog.dismiss();
 
+                //check search users
+                if (strJson != null && strJson.equals("ERROR_IN_CODE")) {
+
+                    new AlertDialog.Builder(context)
+                            .setTitle(titleError)
+                            .setMessage(txtError)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ReaderInfo.this.finish();
+                                }
+                            })
+                            .setIcon(R.drawable.error_icon)
+                            .setCancelable(false)
+                            .show();
+                }
+
+
                 try {
+
                     dataJsonObj = new JSONObject(strJson);
 
                     followers = dataJsonObj.optInt("followers");
@@ -87,47 +113,30 @@ public class ReaderInfo extends ActionBarActivity {
                     String name = dataJsonObj.optString("name");
                     String company = dataJsonObj.optString("company");
                     String login = dataJsonObj.optString("login");
-                    Log.d(TAG,"login: "+login);
                     String message = dataJsonObj.optString("message");
-                    Log.d(TAG,"message"+message);
 
                     String avatar_url = dataJsonObj.optString("avatar_url");
 
 
-                    //check found user
-                    if (message == "") {
-                        UrlImageViewHelper.setUrlDrawable(imgView, avatar_url);
+                    UrlImageViewHelper.setUrlDrawable(imgView, avatar_url);
 
-                        tvFollowers.setText(formattingNumbers.format(followers) + "\n" + "followers");
-                        tvFollowing.setText(formattingNumbers.format(following) + "\n" + "following");
+                    tvFollowers.setText(formattingNumbers.format(followers) + txtFollowers);
+                    tvFollowing.setText(formattingNumbers.format(following) + txtFollowing);
 
-                        //check username field on empty result
-                        if (name.matches("") | name == null | name.matches("null")) {
-                            tvUsername.setText("No name");
-                        } else {
-                            tvUsername.setText(name);
-                        }
-
-                        //check company field on empty result
-                        if (company.matches("") | company == null | company.matches("null")) {
-                            tvCompany.setText(", No company");
-                        } else {
-                            tvCompany.setText("("+login+")" +", " + company);
-                        }
-
+                    //check username field on empty result
+                    if (name.matches("") | name == null | name.matches("null")) {
+                        tvUsername.setText(tvNoname);
                     } else {
-
-                        new AlertDialog.Builder(context)
-                                .setTitle("Error")
-                                .setMessage(message)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                })
-                                .setIcon(R.drawable.error_icon)
-                                .show();
+                        tvUsername.setText(name);
                     }
+
+                    //check company field on empty result
+                    if (company.matches("") | company == null | company.matches("null")) {
+                        tvCompany.setText(tvNocompany);
+                    } else {
+                        tvCompany.setText("(" + login + ")" + ", " + company);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -135,7 +144,7 @@ public class ReaderInfo extends ActionBarActivity {
         }.execute();
 
 
-        new ParseTask(ReaderInfo.this, "https://api.github.com/users/" + username + "/repos", pDialog) {
+        new MyAsyncTask(ReaderInfo.this, "https://api.github.com/users/" + username + "/repos", pDialog, progress) {
 
             // override method for get repositories current user
             @Override
@@ -162,14 +171,14 @@ public class ReaderInfo extends ActionBarActivity {
                         if (language.matches("") | language == null | language.matches("null")) {
                             language="unknown";
                         }
-                        items_list.add(new Timetable(name, language, formattingNumbers.format(countFork),
+                        items_list.add(new Data(name, language, formattingNumbers.format(countFork),
                                 formattingNumbers.format(countStar)));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                TimetableAdapter adapter = new TimetableAdapter(ReaderInfo.this, items_list);
+                DataAdapter adapter = new DataAdapter(ReaderInfo.this, items_list);
                 listView.setAdapter(adapter);
 
             }
@@ -179,7 +188,7 @@ public class ReaderInfo extends ActionBarActivity {
     public void browseButton(View v) {
 
         intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://github.com/"+username));
+        intent.setData(Uri.parse("https://github.com/" + username));
         startActivity(intent);
 
     }

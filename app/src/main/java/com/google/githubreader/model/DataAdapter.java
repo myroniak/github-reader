@@ -1,4 +1,4 @@
-package com.google.githubreader;
+package com.google.githubreader.model;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,17 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.google.githubreader.R;
+import com.google.githubreader.model.Data;
+
 import java.util.List;
 
 /**
  * Created by Roman on 22.05.2015.
  */
-public class TimetableAdapter extends BaseAdapter {
-    private List<Timetable> items;
+public class DataAdapter extends BaseAdapter {
+    private List<Data> items;
     private Context context;
-    private static final String TAG = "myLogs";
 
-    public TimetableAdapter(Context context, List<Timetable> items) {
+    public DataAdapter(Context context, List<Data> items) {
         super();
         this.items = items;
         this.context = context;
@@ -28,7 +31,7 @@ public class TimetableAdapter extends BaseAdapter {
     }
 
     @Override
-    public Timetable getItem(int position) {
+    public Data getItem(int position) {
         return items.get(position);
     }
 
@@ -40,7 +43,7 @@ public class TimetableAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Timetable timetable =  getItem(position);
+        Data timetable = getItem(position);
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context

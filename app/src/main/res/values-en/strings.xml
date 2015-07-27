@@ -4,7 +4,7 @@
     <string name="etHint">GitHub login</string>
     <string name="hello_world">Hello world!</string>
     <string name="tvHead">Input login to know more</string>
-    <string name="tvLanguage">Language:</string>
+    <string name="tvLanguage">Language: \u0020</string>
     <string name="app_name">GitHub Reader</string>
     <string name="action_settings">Settings</string>
     <string name="tvRepositories">Repositories</string>
@@ -12,7 +12,7 @@
     <string name="noIC">No internet connection</string>
     <string name="titleError">Error!</string>
     <string name="tvFollowers">\nfollowers</string>
-    <string name="tvNocompany">, \u0020 No company</string>
+    <string name="tvNocompany">, \u0020No company</string>
     <string name="tvNoname">No Name</string>
     <string name="txtError">User not found</string>
     <string name="tvFollowing">\nfollowing</string>

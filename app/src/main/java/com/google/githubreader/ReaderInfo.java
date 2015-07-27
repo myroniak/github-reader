@@ -199,7 +199,6 @@ public class ReaderInfo extends ActionBarActivity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "https://github.com/" + username);
         startActivity(Intent.createChooser(intent, "Share user link"));
-
     }
 
     public void saveDataUserButton(View v) {
